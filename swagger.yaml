@@ -1,0 +1,118 @@
+swagger: "2.0"
+info:
+  title: Secur Bank Credit Card API
+  version: "1.0"
+  description: Mock API for credit card application submission
+host: blurred-contest-elm.ngrok-free.dev
+basePath: /
+schemes:
+  - https
+
+paths:
+  /api/credit-card/apply:
+    post:
+      summary: Submit credit card application
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: application
+          required: true
+          schema:
+            $ref: "#/definitions/CreditCardApplication"
+      responses:
+        "200":
+          description: Application received successfully
+          schema:
+            $ref: "#/definitions/SubmitSuccess"
+        "400":
+          description: Invalid input
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Server error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+definitions:
+
+  CreditCardApplication:
+    type: object
+    required:
+      - personalDetails
+      - cardSelection
+      - consent
+    properties:
+      personalDetails:
+        $ref: "#/definitions/PersonalDetails"
+      cardSelection:
+        $ref: "#/definitions/CardSelection"
+      consent:
+        $ref: "#/definitions/Consent"
+
+  PersonalDetails:
+    type: object
+    required:
+      - fullName
+      - email
+      - mobileNumber
+    properties:
+      fullName:
+        type: string
+      email:
+        type: string
+        format: email
+      mobileNumber:
+        type: string
+        pattern: "^[0-9]{10}$"
+      dateOfBirth:
+        type: string
+        format: date
+      panUpload:
+        type: string
+
+  CardSelection:
+    type: object
+    required:
+      - cardType
+      - annualIncome
+    properties:
+      cardType:
+        type: string
+        enum: ["silver", "gold", "platinum"]
+      annualIncome:
+        type: number
+        minimum: 0
+
+  Consent:
+    type: object
+    required:
+      - privacyConsent
+    properties:
+      privacyConsent:
+        type: boolean
+        enum: [true]
+
+  SubmitSuccess:
+    type: object
+    required:
+      - applicationId
+      - status
+    properties:
+      applicationId:
+        type: string
+      status:
+        type: string
+        enum: ["received", "processing"]
+
+  ErrorResponse:
+    type: object
+    required:
+      - error
+    properties:
+      error:
+        type: string
+      message:
+        type: string
