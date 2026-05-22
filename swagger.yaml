@@ -3,7 +3,7 @@ info:
   title: Secur Bank Credit Card API
   version: "1.0"
   description: Mock API for credit card application submission
-host: blurred-contest-elm.ngrok-free.dev
+host: shore-airports-respectively-retailer.trycloudflare.com
 basePath: /
 schemes:
   - https
