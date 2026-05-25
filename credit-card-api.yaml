@@ -1,0 +1,181 @@
+swagger: "2.0"
+info:
+  title: Secur Bank Credit Card API
+  version: "2.0"
+  description: APIs for credit limit enhancement flow
+host: pregnant-summaries-material-personally.trycloudflare.com
+basePath: /
+schemes:
+  - https
+
+paths:
+  /api/otp/send:
+    post:
+      summary: Send OTP to mobile number
+      consumes: [application/json]
+      produces: [application/json]
+      parameters:
+        - in: body
+          name: request
+          required: true
+          schema:
+            $ref: "#/definitions/OtpSendRequest"
+      responses:
+        "200":
+          description: OTP sent
+          schema:
+            $ref: "#/definitions/OtpSendResponse"
+        "400":
+          schema: { $ref: "#/definitions/ErrorResponse" }
+
+  /api/otp/verify:
+    post:
+      summary: Verify OTP
+      consumes: [application/json]
+      produces: [application/json]
+      parameters:
+        - in: body
+          name: request
+          required: true
+          schema:
+            $ref: "#/definitions/OtpVerifyRequest"
+      responses:
+        "200":
+          description: Verification result
+          schema:
+            $ref: "#/definitions/OtpVerifyResponse"
+
+  /api/customer/profile:
+    post:
+      summary: Fetch customer profile after OTP verification
+      consumes: [application/json]
+      produces: [application/json]
+      parameters:
+        - in: body
+          name: request
+          required: true
+          schema:
+            $ref: "#/definitions/ProfileRequest"
+      responses:
+        "200":
+          description: Customer profile
+          schema:
+            $ref: "#/definitions/CustomerProfile"
+
+  /api/credit-limit/enhance:
+    post:
+      summary: Submit credit limit enhancement request
+      consumes: [application/json]
+      produces: [application/json]
+      parameters:
+        - in: body
+          name: request
+          required: true
+          schema:
+            $ref: "#/definitions/EnhancementRequest"
+      responses:
+        "200":
+          description: Request received
+          schema:
+            $ref: "#/definitions/EnhancementResponse"
+
+definitions:
+
+  OtpSendRequest:
+    type: object
+    required: [mobileNumber]
+    properties:
+      mobileNumber:
+        type: string
+        pattern: "^[0-9]{10}$"
+
+  OtpSendResponse:
+    type: object
+    required: [sessionId]
+    properties:
+      sessionId:
+        type: string
+      expiresInSeconds:
+        type: integer
+
+  OtpVerifyRequest:
+    type: object
+    required: [sessionId, otp]
+    properties:
+      sessionId:
+        type: string
+      otp:
+        type: string
+        pattern: "^[0-9]{6}$"
+
+  OtpVerifyResponse:
+    type: object
+    required: [verified]
+    properties:
+      verified:
+        type: boolean
+      verificationToken:
+        type: string
+        description: Token to use in subsequent calls; only present if verified=true
+      error:
+        type: string
+        enum: [INVALID_OTP, EXPIRED, TOO_MANY_ATTEMPTS]
+
+  ProfileRequest:
+    type: object
+    required: [mobileNumber, verificationToken]
+    properties:
+      mobileNumber:
+        type: string
+      verificationToken:
+        type: string
+
+  CustomerProfile:
+    type: object
+    required: [customerName, cardType, currentLimit]
+    properties:
+      customerName:
+        type: string
+      cardType:
+        type: string
+        enum: [silver, gold, platinum]
+      currentLimit:
+        type: number
+
+  EnhancementRequest:
+    type: object
+    required: [mobileNumber, verificationToken, requestedLimit, reason]
+    properties:
+      mobileNumber:
+        type: string
+      verificationToken:
+        type: string
+      requestedLimit:
+        type: number
+      reason:
+        type: string
+        enum: [salary_increase, new_job, marriage, travel, other]
+      reasonExplanation:
+        type: string
+        description: Required only when reason=other
+      incomeProofUpload:
+        type: string
+        description: Required only when requestedLimit > 5x current
+
+  EnhancementResponse:
+    type: object
+    required: [applicationId, status]
+    properties:
+      applicationId:
+        type: string
+      status:
+        type: string
+        enum: [received, processing, approved, rejected]
+
+  ErrorResponse:
+    type: object
+    properties:
+      error:
+        type: string
+      message:
+        type: string
