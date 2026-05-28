@@ -1,0 +1,477 @@
+swagger: "2.0"
+info:
+  title: Secur Bank Credit Card Application API
+  description: Mock API for Secur Bank credit card application flow
+  version: "1.0.0"
+host: localhost:3001
+basePath: /api
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
+securityDefinitions:
+  verificationToken:
+    type: apiKey
+    name: Authorization
+    in: header
+
+tags:
+  - name: auth
+    description: OTP send, verify, resend
+  - name: catalog
+    description: Available credit cards
+  - name: applicant
+    description: Applicant profile prefill
+  - name: documents
+    description: Identity document upload
+  - name: application
+    description: Final application submission
+
+paths:
+  /otp/send:
+    post:
+      tags: [auth]
+      summary: Send OTP to applicant's mobile
+      operationId: sendOtp
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/OtpSendRequest"
+      responses:
+        "200":
+          description: OTP sent successfully
+          schema:
+            $ref: "#/definitions/OtpSendResponse"
+        "400":
+          description: Invalid input
+          schema:
+            $ref: "#/definitions/Error"
+
+  /otp/verify:
+    post:
+      tags: [auth]
+      summary: Verify OTP entered by applicant
+      operationId: verifyOtp
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/OtpVerifyRequest"
+      responses:
+        "200":
+          description: OTP verified successfully
+          schema:
+            $ref: "#/definitions/OtpVerifyResponse"
+        "401":
+          description: Invalid OTP
+          schema:
+            $ref: "#/definitions/OtpVerifyError"
+
+  /otp/resend:
+    post:
+      tags: [auth]
+      summary: Resend OTP using existing session
+      operationId: resendOtp
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/OtpResendRequest"
+      responses:
+        "200":
+          description: OTP resent successfully
+          schema:
+            $ref: "#/definitions/OtpResendResponse"
+        "404":
+          description: Session not found or expired
+          schema:
+            $ref: "#/definitions/Error"
+
+  /cards:
+    get:
+      tags: [catalog]
+      summary: Get list of available credit cards
+      operationId: getCards
+      security:
+        - verificationToken: []
+      responses:
+        "200":
+          description: Cards retrieved successfully
+          schema:
+            $ref: "#/definitions/CardsResponse"
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/Error"
+
+  /applicant/profile:
+    get:
+      tags: [applicant]
+      summary: Get applicant profile for prefill
+      operationId: getApplicantProfile
+      security:
+        - verificationToken: []
+      responses:
+        "200":
+          description: Profile retrieved successfully
+          schema:
+            $ref: "#/definitions/ApplicantProfile"
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/Error"
+
+  /documents/upload:
+    post:
+      tags: [documents]
+      summary: Upload an identity document file
+      operationId: uploadDocument
+      security:
+        - verificationToken: []
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: file
+          type: file
+          required: true
+        - in: formData
+          name: documentType
+          type: string
+          required: true
+          enum: [passport, drivers_license, national_id]
+        - in: formData
+          name: side
+          type: string
+          required: true
+          enum: [front, back]
+      responses:
+        "200":
+          description: Document uploaded successfully
+          schema:
+            $ref: "#/definitions/DocumentUploadResponse"
+        "400":
+          description: Invalid file or parameters
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/Error"
+
+  /application/submit:
+    post:
+      tags: [application]
+      summary: Submit final credit card application
+      operationId: submitApplication
+      security:
+        - verificationToken: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/ApplicationSubmitRequest"
+      responses:
+        "200":
+          description: Application submitted successfully
+          schema:
+            $ref: "#/definitions/ApplicationSubmitResponse"
+        "400":
+          description: Invalid application data
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/Error"
+
+definitions:
+  OtpSendRequest:
+    type: object
+    required: [mobile, ssn]
+    properties:
+      mobile:
+        type: string
+        description: 10-digit mobile number
+        pattern: "^[0-9]{10}$"
+        example: "9876543210"
+      ssn:
+        type: string
+        description: SSN in ABCDE1234Z format
+        pattern: "^[A-Z]{5}[0-9]{4}[A-Z]$"
+        example: "ABCDE1234Z"
+
+  OtpSendResponse:
+    type: object
+    required: [sessionId, maskedMobile, attemptsLeft, expiresInSeconds]
+    properties:
+      sessionId:
+        type: string
+        example: "sess-a8f3-2026-05-28"
+      maskedMobile:
+        type: string
+        example: "*****43210"
+      attemptsLeft:
+        type: integer
+        example: 3
+      expiresInSeconds:
+        type: integer
+        example: 30
+
+  OtpVerifyRequest:
+    type: object
+    required: [sessionId, otp]
+    properties:
+      sessionId:
+        type: string
+        example: "sess-a8f3-2026-05-28"
+      otp:
+        type: string
+        pattern: "^[0-9]{6}$"
+        example: "123456"
+
+  OtpVerifyResponse:
+    type: object
+    required: [verified, verificationToken]
+    properties:
+      verified:
+        type: boolean
+        example: true
+      verificationToken:
+        type: string
+        example: "vtok-xyz-789-2026-05-28"
+
+  OtpVerifyError:
+    type: object
+    required: [verified, attemptsLeft, error]
+    properties:
+      verified:
+        type: boolean
+        example: false
+      attemptsLeft:
+        type: integer
+        example: 2
+      error:
+        type: string
+        example: "INVALID_OTP"
+
+  OtpResendRequest:
+    type: object
+    required: [sessionId]
+    properties:
+      sessionId:
+        type: string
+        example: "sess-a8f3-2026-05-28"
+
+  OtpResendResponse:
+    type: object
+    required: [sessionId, expiresInSeconds]
+    properties:
+      sessionId:
+        type: string
+        example: "sess-a8f3-2026-05-28"
+      expiresInSeconds:
+        type: integer
+        example: 30
+
+  Card:
+    type: object
+    required: [cardId, name, tagline, imageUrl, rewardsRate, rewardsDescription, joiningFee, applicationAmount, creditLimit, requiredBalance, creditPoints, interestRate]
+    properties:
+      cardId:
+        type: string
+        example: "rewards"
+      name:
+        type: string
+        example: "Rewards"
+      tagline:
+        type: string
+        example: "Best Card for Rewards & Offers"
+      imageUrl:
+        type: string
+        example: "/cards/rewards.png"
+      rewardsRate:
+        type: string
+        example: "Upto 10X CashPoints"
+      rewardsDescription:
+        type: string
+        example: "₹150 spent = 1 Reward Point"
+      joiningFee:
+        type: number
+        example: 500
+      applicationAmount:
+        type: number
+        example: 0
+      creditLimit:
+        type: number
+        example: 9000
+      requiredBalance:
+        type: number
+        example: 200
+      creditPoints:
+        type: integer
+        example: 200
+      interestRate:
+        type: number
+        example: 7.2
+
+  CardsResponse:
+    type: object
+    required: [cards]
+    properties:
+      cards:
+        type: array
+        items:
+          $ref: "#/definitions/Card"
+
+  Address:
+    type: object
+    required: [street, zipcode, city, state]
+    properties:
+      street:
+        type: string
+        example: "101, Madeup Apts, Madeup avenue"
+      zipcode:
+        type: string
+        example: "90401"
+      city:
+        type: string
+        example: "Santa Monica"
+      state:
+        type: string
+        example: "California"
+
+  ApplicantProfile:
+    type: object
+    required: [fullName, gender, dateOfBirth, mobile, email, ssn, mailingAddress]
+    properties:
+      fullName:
+        type: string
+        example: "Aya Tan"
+      gender:
+        type: string
+        enum: [male, female, other]
+        example: "female"
+      dateOfBirth:
+        type: string
+        format: date
+        example: "1990-03-12"
+      mobile:
+        type: string
+        example: "9876543210"
+      email:
+        type: string
+        format: email
+        example: "aya.tan@email.com"
+      ssn:
+        type: string
+        example: "ABCDE1234Z"
+      mailingAddress:
+        $ref: "#/definitions/Address"
+
+  DocumentUploadResponse:
+    type: object
+    required: [documentId, filename, sizeBytes, uploadedAt]
+    properties:
+      documentId:
+        type: string
+        example: "doc-passport-front-a8f3"
+      filename:
+        type: string
+        example: "PassportFront.jpg"
+      sizeBytes:
+        type: integer
+        example: 1258291
+      uploadedAt:
+        type: string
+        format: date-time
+        example: "2026-05-28T14:30:00Z"
+
+  TermsAccepted:
+    type: object
+    required: [feesAndCharges, cardPriceAndFeatures, generalTerms]
+    properties:
+      feesAndCharges:
+        type: boolean
+        example: true
+      cardPriceAndFeatures:
+        type: boolean
+        example: true
+      generalTerms:
+        type: boolean
+        example: true
+
+  IdProof:
+    type: object
+    required: [documentType, frontDocumentId, backDocumentId]
+    properties:
+      documentType:
+        type: string
+        enum: [passport, drivers_license, national_id]
+        example: "passport"
+      frontDocumentId:
+        type: string
+        example: "doc-passport-front-a8f3"
+      backDocumentId:
+        type: string
+        example: "doc-passport-back-a8f3"
+
+  ApplicationSubmitRequest:
+    type: object
+    required: [applicantProfile, selectedCardId, employeeAssistance, idProof, termsAccepted]
+    properties:
+      applicantProfile:
+        $ref: "#/definitions/ApplicantProfile"
+      selectedCardId:
+        type: string
+        example: "rewards"
+      employeeAssistance:
+        type: boolean
+        example: false
+      idProof:
+        $ref: "#/definitions/IdProof"
+      termsAccepted:
+        $ref: "#/definitions/TermsAccepted"
+      npsRating:
+        type: integer
+        minimum: 0
+        maximum: 10
+        example: 9
+
+  ApplicationSubmitResponse:
+    type: object
+    required: [applicationReferenceNumber, submittedAt, cardName, creditLimit]
+    properties:
+      applicationReferenceNumber:
+        type: string
+        example: "648715188"
+      submittedAt:
+        type: string
+        format: date-time
+        example: "2026-05-28T14:35:00Z"
+      cardName:
+        type: string
+        example: "Rewards Credit Card"
+      creditLimit:
+        type: number
+        example: 9000
+
+  Error:
+    type: object
+    required: [error, message]
+    properties:
+      error:
+        type: string
+        example: "INVALID_INPUT"
+      message:
+        type: string
+        example: "The request is missing required fields."
