@@ -48,6 +48,9 @@
         },
         {
           "...": "../blocks/form/components/credit-card/_credit-card.json#/definitions"
+        },
+        {
+          "...": "../blocks/form/components/card-item/_card-item.json#/definitions"
         }
       ]
     }
