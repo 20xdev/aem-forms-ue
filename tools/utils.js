@@ -1,6 +1,7 @@
 /**
  * Common utilities for tools and scripts
  */
+/* eslint-disable no-console */
 
 /**
  * Creates an animated spinner for long-running operations
