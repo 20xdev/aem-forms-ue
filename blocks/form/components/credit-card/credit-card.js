@@ -1,23 +1,47 @@
-/**
- * Custom credit-card component
- * Based on: Radio Group
- */
+import { createOptimizedPicture } from '../../../../scripts/aem.js';
+import { subscribe } from '../../rules/index.js';
 
-/**
- * Decorates a custom form field component
- * @param {HTMLElement} fieldDiv - The DOM element containing the field wrapper.
- * @param {Object} fieldJson - The form json object for the component.
- * @param {HTMLElement} parentElement - The parent container element of the field.
- * @param {string} formId - The unique identifier of the form.
- */
+function createCard(fieldDiv, enums) {
+  fieldDiv.querySelectorAll('.radio-wrapper').forEach((radioWrapper, index) => {
+    if (enums[index]?.name) {
+      let label = radioWrapper.querySelector('label');
+      if (!label) {
+        label = document.createElement('label');
+        radioWrapper.appendChild(label);
+      }
+      label.textContent = enums[index].name;
+    }
+
+    radioWrapper.querySelector('input').dataset.index = index;
+
+    const image = createOptimizedPicture(
+      enums[index]?.image || 'https://main--aem-forms-ue--20xdev.aem.page/icons/card-placeholder.png',
+      'card-image',
+    );
+    radioWrapper.appendChild(image);
+  });
+}
+
 export default async function decorate(fieldDiv, fieldJson, parentElement, formId) {
-  // eslint-disable-next-line no-console
-  console.log('Decorating credit-card component:', fieldDiv, fieldJson, parentElement, formId);
+  fieldDiv.classList.add('credit-card');
+  createCard(fieldDiv, fieldJson.enum || []);
 
-  // TODO: Implement your custom component logic here
-  // You can access the field properties via fieldJson.properties
-  // You can access the parent container via parentElement
-  // You can access the form ID via formId
+  subscribe(fieldDiv, formId, (element, fieldModel) => {
+    fieldModel.subscribe((e) => {
+      const { payload } = e;
+      payload?.changes?.forEach((change) => {
+        if (change?.propertyName === 'enum') {
+          createCard(fieldDiv, change.currentValue);
+        }
+      });
+    });
+
+    fieldDiv.addEventListener('change', (e) => {
+      e.stopPropagation();
+      const value = fieldModel.enum?.[parseInt(e.target.dataset.index, 10)];
+      fieldModel.value = value?.name;
+    });
+  });
 
   return fieldDiv;
 }
