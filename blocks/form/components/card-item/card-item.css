@@ -1,2 +1,61 @@
-/* Card-item component styles */
-  /* Add your custom styles here */
+/* Card container */
+.field-card-item {
+    display: inline-block;
+    width: 240px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    vertical-align: top;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  
+  .field-card-item:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Card image */
+  .field-card-item .field-cardimage img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  
+  /* Text fields inside the card */
+  .field-card-item .field-cardname {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  
+  .field-card-item .field-cardtagline {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 12px;
+  }
+  
+  .field-card-item .field-rewardsrate,
+  .field-card-item .field-rewardsdescription,
+  .field-card-item .field-joiningfee {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  
+  /* Radio selector */
+  .field-card-item .field-selectcard {
+    margin-top: 12px;
+  }
+  
+  .field-card-item .field-selectcard legend {
+    display: none;
+  }
+  
+  /* Parent cardList: cards in a row */
+  .field-cardlist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
