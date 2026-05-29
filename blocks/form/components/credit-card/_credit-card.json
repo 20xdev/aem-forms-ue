@@ -1,14 +1,14 @@
 {
   "definitions": [
     {
-      "title": "Cards",
-      "id": "cards",
+      "title": "Credit Card",
+      "id": "credit-card",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/fd/components/form/radiobutton/v1/radiobutton",
             "template": {
-              "jcr:title": "Cards",
+              "jcr:title": "Credit Card",
               "fieldType": "radio-group",
               "enum": [
                 "0",
@@ -19,7 +19,7 @@
                 "Item 2"
               ],
               "orientation": "horizontal",
-              "fd:viewType": "cards"
+              "fd:viewType": "credit-card"
             }
           }
         }
@@ -28,7 +28,7 @@
   ],
   "models": [
     {
-      "id": "cards",
+      "id": "credit-card",
       "fields": [
         {
           "component": "tab",
@@ -48,8 +48,8 @@
               "value": "default"
             },
             {
-              "name": "Cards",
-              "value": "cards"
+              "name": "Credit Card",
+              "value": "credit-card"
             }
           ],
           "value": "default"
