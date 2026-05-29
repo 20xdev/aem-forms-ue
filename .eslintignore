@@ -7,4 +7,5 @@ scripts/editor-support.js
 scripts/editor-support-rte.js
 tools/forms-scaffolder.js
 tools/update-mappings.js
+component_steps.js
 /test

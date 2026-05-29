@@ -4217,25 +4217,21 @@
         ]
       },
       {
-        "fields": [
-          {
-            "component": "tab",
-            "label": "Help Content",
-            "name": "help"
-          },
-          {
-            "component": "richtext",
-            "name": "description",
-            "label": "Help text",
-            "valueType": "string"
-          },
-          {
-            "component": "richtext",
-            "name": "tooltip",
-            "label": "Short description",
-            "valueType": "string"
-          }
-        ]
+        "component": "tab",
+        "label": "Help Content",
+        "name": "help"
+      },
+      {
+        "component": "richtext",
+        "name": "description",
+        "label": "Help text",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "name": "tooltip",
+        "label": "Short description",
+        "valueType": "string"
       },
       {
         "component": "container",
@@ -4268,7 +4264,7 @@
     ]
   },
   {
-    "id": "cards",
+    "id": "credit-card",
     "fields": [
       {
         "component": "tab",
@@ -4419,8 +4415,8 @@
             "value": "default"
           },
           {
-            "name": "Cards",
-            "value": "cards"
+            "name": "Credit Card",
+            "value": "credit-card"
           }
         ],
         "value": "default"

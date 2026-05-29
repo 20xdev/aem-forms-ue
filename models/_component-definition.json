@@ -47,7 +47,7 @@
           "...": "../blocks/form/components/card-choice/_card-choice.json#/definitions"
         },
         {
-          "...": "../blocks/form/components/cards/_cards.json#/definitions"
+          "...": "../blocks/form/components/credit-card/_credit-card.json#/definitions"
         }
       ]
     }

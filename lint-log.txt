@@ -1,0 +1,42 @@
+
+> @adobe/aem-boilerplate@1.3.0 lint
+> npm run lint:js && npm run lint:css
+
+
+> @adobe/aem-boilerplate@1.3.0 lint:js
+> eslint . --ext .json,.js,.mjs
+
+
+/Users/pipley/Documents/rnd/AEM-Forms-Universal-Editor/aem-forms-ue/aem-forms-ue/blocks/form/components/card-choice/card-choice.js
+  14:3  warning  Unexpected console statement  no-console
+
+/Users/pipley/Documents/rnd/AEM-Forms-Universal-Editor/aem-forms-ue/aem-forms-ue/blocks/form/form.js
+  508:7  warning  Unexpected console statement  no-console
+  522:7  warning  Unexpected console statement  no-console
+
+/Users/pipley/Documents/rnd/AEM-Forms-Universal-Editor/aem-forms-ue/aem-forms-ue/blocks/form/rules-doc/RuleEngine.js
+  116:7  warning  Unexpected console statement  no-console
+
+/Users/pipley/Documents/rnd/AEM-Forms-Universal-Editor/aem-forms-ue/aem-forms-ue/blocks/form/rules/functionRegistration.js
+  44:5  warning  Unexpected console statement  no-console
+
+/Users/pipley/Documents/rnd/AEM-Forms-Universal-Editor/aem-forms-ue/aem-forms-ue/scripts/form-editor-support.js
+   75:5   warning  Unexpected console statement  no-console
+   79:5   warning  Unexpected console statement  no-console
+  150:11  warning  Unexpected console statement  no-console
+  155:5   warning  Unexpected console statement  no-console
+  156:5   warning  Unexpected alert              no-alert
+
+/Users/pipley/Documents/rnd/AEM-Forms-Universal-Editor/aem-forms-ue/aem-forms-ue/tools/utils.js
+  31:25  warning  Unexpected console statement  no-console
+  32:23  warning  Unexpected console statement  no-console
+  33:25  warning  Unexpected console statement  no-console
+  34:22  warning  Unexpected console statement  no-console
+  35:23  warning  Unexpected console statement  no-console
+
+✖ 15 problems (0 errors, 15 warnings)
+
+
+> @adobe/aem-boilerplate@1.3.0 lint:css
+> stylelint blocks/**/*.css styles/*.css
+
