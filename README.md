@@ -4,7 +4,7 @@ Your project's description...
 ## Environments
 - Preview: [https://main--aem-boilerplate-forms--adobe-rnd.aem.page/](https://main--aem-forms-ue--20xdev.aem.page/)
 - Live: https://main--aem-boilerplate-forms--adobe-rnd.aem.live/
-- https://main--aem-forms-ue--20xdev.aem.page/content/forms/af/aem-forms-ue/secur-bank-credit-card-application.html
+- https://main--aem-forms-ue--20xdev.aem.page/content/forms/af/aem-forms-ue/secur-bank-credit-card-application
 - https://main--aem-forms-ue--20xdev.aem.page/blocks/form/components/cards/cards.js
 
 ## Documentation
