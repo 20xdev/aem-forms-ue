@@ -11,7 +11,56 @@
               "jcr:title": "Card item",
               "fieldType": "panel",
               "minOccur": 1,
-              "fd:viewType": "card-item"
+              "fd:viewType": "card-item",
+              "cardImage": {
+                "sling:resourceType": "core/fd/components/form/image/v1/image",
+                "fieldType": "image",
+                "jcr:title": "Card Image",
+                "altText": "Credit card"
+              },
+              "cardName": {
+                "sling:resourceType": "core/fd/components/form/text/v1/text",
+                "fieldType": "plain-text",
+                "jcr:title": "Card Name",
+                "value": "Card Name"
+              },
+              "cardTagline": {
+                "sling:resourceType": "core/fd/components/form/text/v1/text",
+                "fieldType": "plain-text",
+                "jcr:title": "Tagline",
+                "value": "Best Card for Rewards & Offers"
+              },
+              "rewardsRate": {
+                "sling:resourceType": "core/fd/components/form/text/v1/text",
+                "fieldType": "plain-text",
+                "jcr:title": "Rewards Rate",
+                "value": "Upto 10X CashPoints"
+              },
+              "rewardsDescription": {
+                "sling:resourceType": "core/fd/components/form/text/v1/text",
+                "fieldType": "plain-text",
+                "jcr:title": "Rewards Description",
+                "value": "₹150 spent = 1 Reward Point"
+              },
+              "joiningFee": {
+                "sling:resourceType": "core/fd/components/form/text/v1/text",
+                "fieldType": "plain-text",
+                "jcr:title": "Joining Fee",
+                "value": "Joining/Renewal Fees - ₹500/-"
+              },
+              "selectCard": {
+                "name": "selectCard",
+                "sling:resourceType": "core/fd/components/form/radiobutton/v1/radiobutton",
+                "fieldType": "radio-group",
+                "jcr:title": "Select",
+                "enum": [
+                  "selected"
+                ],
+                "enumNames": [
+                  "Select this card"
+                ],
+                "type": "string"
+              }
             }
           }
         }
