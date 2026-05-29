@@ -223,7 +223,8 @@
         "wizard",
         "range",
         "card-choice",
-        "credit-card"
+        "credit-card",
+        "card-item"
       ]
     }
   ]

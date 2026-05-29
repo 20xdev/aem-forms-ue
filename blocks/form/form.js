@@ -505,6 +505,7 @@ function addRequestContextToForm(formDef) {
         formDef.properties.queryParams[key?.toLowerCase()] = value;
       });
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.warn('Error reading URL parameters:', e);
     }
 
@@ -519,6 +520,7 @@ function addRequestContextToForm(formDef) {
         }
       });
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.warn('Error reading cookies:', e);
     }
   }

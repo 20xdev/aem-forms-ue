@@ -1,6 +1,6 @@
 /**
- * Custom card-choice component
- * Based on: Radio Group
+ * Custom card-item component
+ * Based on: Panel
  */
 
 /**

@@ -735,6 +735,23 @@
               }
             }
           }
+        },
+        {
+          "title": "Card item",
+          "id": "card-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/fd/components/form/panelcontainer/v1/panelcontainer",
+                "template": {
+                  "jcr:title": "Card item",
+                  "fieldType": "panel",
+                  "minOccur": 1,
+                  "fd:viewType": "card-item"
+                }
+              }
+            }
+          }
         }
       ]
     }
