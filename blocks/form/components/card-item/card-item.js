@@ -12,7 +12,12 @@
  */
 // eslint-disable-next-line no-unused-vars
 export default async function decorate(fieldDiv, fieldJson, parentElement, formId) {
-  // TODO: Implement your custom component logic here
+  if (!fieldDiv.querySelector('[class*="field-cardimage"]')) {
+    return fieldDiv;
+  }
+
+  fieldDiv.classList.add('card-item');
+  fieldDiv.closest('.repeat-wrapper')?.classList.add('card-items');
 
   return fieldDiv;
 }
