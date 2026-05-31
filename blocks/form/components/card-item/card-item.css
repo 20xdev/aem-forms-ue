@@ -1,61 +1,67 @@
-/* Card container */
-.field-card-item {
-    display: inline-block;
+/* All cards row (the repeat-wrapper holds all card-item instances) */
+.repeat-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  /* Each card */
+  [class*="field-card-item"].panel-wrapper {
     width: 240px;
     background: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 12px;
     padding: 20px;
-    margin: 8px;
+    margin: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    vertical-align: top;
     transition: box-shadow 0.2s, border-color 0.2s;
   }
   
-  .field-card-item:hover {
+  [class*="field-card-item"].panel-wrapper:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   }
   
+  /* Hide the "Card item" legend label */
+  [class*="field-card-item"] > legend.field-label {
+    display: none;
+  }
+  
   /* Card image */
-  .field-card-item .field-cardimage img {
+  [class*="field-cardimage"] img {
     width: 100%;
     height: auto;
     border-radius: 8px;
     margin-bottom: 12px;
   }
   
-  /* Text fields inside the card */
-  .field-card-item .field-cardname {
+  /* Card name */
+  [class*="field-cardname"] p {
     font-size: 18px;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin: 0 0 4px 0;
   }
   
-  .field-card-item .field-cardtagline {
+  /* Tagline */
+  [class*="field-cardtagline"] p {
     font-size: 13px;
     color: #666;
-    margin-bottom: 12px;
+    margin: 0 0 12px 0;
   }
   
-  .field-card-item .field-rewardsrate,
-  .field-card-item .field-rewardsdescription,
-  .field-card-item .field-joiningfee {
+  /* Rewards / fees lines */
+  [class*="field-rewardsrate"] p,
+  [class*="field-rewardsdescription"] p,
+  [class*="field-joiningfee"] p {
     font-size: 13px;
-    margin-bottom: 6px;
+    margin: 0 0 6px 0;
   }
   
   /* Radio selector */
-  .field-card-item .field-selectcard {
+  .field-selectcard {
     margin-top: 12px;
+    border: none;
   }
   
-  .field-card-item .field-selectcard legend {
+  .field-selectcard legend {
     display: none;
-  }
-  
-  /* Parent cardList: cards in a row */
-  .field-cardlist {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
   }
