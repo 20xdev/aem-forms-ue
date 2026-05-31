@@ -722,12 +722,16 @@
                   "jcr:title": "Credit Card",
                   "fieldType": "radio-group",
                   "enum": [
-                    "0",
-                    "1"
+                    "rewards",
+                    "low-rate",
+                    "low-fee",
+                    "the-ultimate"
                   ],
                   "enumNames": [
-                    "Item 1",
-                    "Item 2"
+                    "Rewards",
+                    "Low-Rate",
+                    "Low Fee",
+                    "The Ultimate"
                   ],
                   "orientation": "horizontal",
                   "fd:viewType": "credit-card"
@@ -744,59 +748,60 @@
               "page": {
                 "resourceType": "core/fd/components/form/panelcontainer/v1/panelcontainer",
                 "template": {
-                  "jcr:title": "Card item",
-                  "fieldType": "panel",
-                  "minOccur": 1,
-                  "fd:viewType": "card-item",
-                  "cardImage": {
-                    "sling:resourceType": "core/fd/components/form/image/v1/image",
-                    "fieldType": "image",
-                    "jcr:title": "Card Image",
-                    "altText": "Credit card"
-                  },
-                  "cardName": {
-                    "sling:resourceType": "core/fd/components/form/text/v1/text",
-                    "fieldType": "plain-text",
-                    "jcr:title": "Card Name",
-                    "value": "Card Name"
-                  },
-                  "cardTagline": {
-                    "sling:resourceType": "core/fd/components/form/text/v1/text",
-                    "fieldType": "plain-text",
-                    "jcr:title": "Tagline",
-                    "value": "Best Card for Rewards & Offers"
-                  },
-                  "rewardsRate": {
-                    "sling:resourceType": "core/fd/components/form/text/v1/text",
-                    "fieldType": "plain-text",
-                    "jcr:title": "Rewards Rate",
-                    "value": "Upto 10X CashPoints"
-                  },
-                  "rewardsDescription": {
-                    "sling:resourceType": "core/fd/components/form/text/v1/text",
-                    "fieldType": "plain-text",
-                    "jcr:title": "Rewards Description",
-                    "value": "₹150 spent = 1 Reward Point"
-                  },
-                  "joiningFee": {
-                    "sling:resourceType": "core/fd/components/form/text/v1/text",
-                    "fieldType": "plain-text",
-                    "jcr:title": "Joining Fee",
-                    "value": "Joining/Renewal Fees - ₹500/-"
-                  },
-                  "selectCard": {
-                    "name": "selectCard",
-                    "sling:resourceType": "core/fd/components/form/radiobutton/v1/radiobutton",
-                    "fieldType": "radio-group",
-                    "jcr:title": "Select",
-                    "enum": [
-                      "selected"
-                    ],
-                    "enumNames": [
-                      "Select this card"
-                    ],
-                    "type": "string"
-                  }
+                  "jcr:title": "Credit Card",
+                  "fieldType": "radio-group",
+                  "enum": [
+                    "rewards",
+                    "low-rate",
+                    "low-fee",
+                    "the-ultimate"
+                  ],
+                  "enumNames": [
+                    "Rewards",
+                    "Low-Rate",
+                    "Low Fee",
+                    "The Ultimate"
+                  ],
+                  "fd:cardCatalog": [
+                    {
+                      "id": "rewards",
+                      "image": "/icons/card-teal.png",
+                      "tagline": "Best Card for Rewards & Offers",
+                      "rewardsRate": "Upto 10X CashPoints",
+                      "rewardsDescription": "₹150 spent = 1 Reward Point",
+                      "joiningFee": "Joining/Renewal Fees - ₹500/-",
+                      "applicationAmount": "₹ 0/-"
+                    },
+                    {
+                      "id": "low-rate",
+                      "image": "/icons/card-gray.png",
+                      "tagline": "Best Card for Rewards & Offers",
+                      "rewardsRate": "Upto 5% Fuel Points",
+                      "rewardsDescription": "₹150 spent = 1 Fuel Point",
+                      "joiningFee": "Joining/Renewal Fees - ₹500/-",
+                      "applicationAmount": "₹ 0/-"
+                    },
+                    {
+                      "id": "low-fee",
+                      "image": "/icons/card-gold.png",
+                      "tagline": "Best Card for Rewards & Offers",
+                      "rewardsRate": "Upto 4X Reward Points",
+                      "rewardsDescription": "₹150 spent = 2 CashPoints",
+                      "joiningFee": "Joining/Renewal Fees - ₹500/-",
+                      "applicationAmount": "₹ 0/-"
+                    },
+                    {
+                      "id": "the-ultimate",
+                      "image": "/icons/card-black.png",
+                      "tagline": "Best Card for Rewards & Offers",
+                      "rewardsRate": "Upto 7.5% NeuCoins",
+                      "rewardsDescription": "2% back as NeuCoins on Tata Brands",
+                      "joiningFee": "Joining/Renewal Fees - ₹499/-",
+                      "applicationAmount": "₹ 0/-"
+                    }
+                  ],
+                  "orientation": "horizontal",
+                  "fd:viewType": "credit-card"
                 }
               }
             }
