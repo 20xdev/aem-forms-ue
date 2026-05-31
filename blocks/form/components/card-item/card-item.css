@@ -1,67 +1,246 @@
-/* All cards row (the repeat-wrapper holds all card-item instances) */
-.repeat-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
+/* Card item – selectable credit card tile inside a repeat panel */
+
+main .form {
+  --card-item-width: 240px;
+  --card-item-bg: #fff;
+  --card-item-border: #e5e7eb;
+  --card-item-radius: 12px;
+  --card-item-shadow: 0 2px 8px rgb(0 0 0 / 6%);
+  --card-item-shadow-hover: 0 4px 16px rgb(0 0 0 / 10%);
+  --card-item-selected-border: #0891b2;
+  --card-item-selected-shadow: 0 0 0 1px #0891b2, 0 4px 16px rgb(8 145 178 / 15%);
+  --card-item-title-color: #111827;
+  --card-item-tagline-color: #6b7280;
+  --card-item-detail-color: #374151;
+  --card-item-icon-color: #9ca3af;
+}
+
+/* Horizontal row of card tiles */
+main .form .card-items.repeat-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: stretch;
+}
+
+main .form .card-items.repeat-wrapper > .card-item.panel-wrapper {
+  flex: 0 0 var(--card-item-width);
+  width: var(--card-item-width);
+  max-width: 100%;
+}
+
+main .form .card-items .repeat-actions {
+  flex: 0 0 100%;
+  margin-top: 4px;
+}
+
+/* Individual card tile */
+main .form .card-item.panel-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 0;
+  padding: 20px 20px 16px;
+  background: var(--card-item-bg);
+  border: 1px solid var(--card-item-border);
+  border-radius: var(--card-item-radius);
+  box-shadow: var(--card-item-shadow);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+main .form .card-item.panel-wrapper:hover {
+  box-shadow: var(--card-item-shadow-hover);
+}
+
+main .form .card-item.panel-wrapper:has(.field-selectcard input:checked) {
+  border-color: var(--card-item-selected-border);
+  box-shadow: var(--card-item-selected-shadow);
+}
+
+main .form .card-item.panel-wrapper > legend.field-label,
+main .form .card-item .field-selectcard > legend.field-label {
+  display: none;
+}
+
+/* Re-order children to match design: title → tagline → image → details → radio */
+main .form .card-item [class*='field-cardname'] {
+  order: 1;
+}
+
+main .form .card-item [class*='field-cardtagline'] {
+  order: 2;
+}
+
+main .form .card-item [class*='field-cardimage'] {
+  order: 3;
+}
+
+main .form .card-item [class*='field-rewardsrate'] {
+  order: 4;
+}
+
+main .form .card-item [class*='field-rewardsdescription'] {
+  order: 5;
+}
+
+main .form .card-item [class*='field-joiningfee'] {
+  order: 6;
+}
+
+main .form .card-item .field-selectcard {
+  order: 0;
+}
+
+/* Card title & tagline */
+main .form .card-item [class*='field-cardname'],
+main .form .card-item [class*='field-cardtagline'],
+main .form .card-item [class*='field-rewardsrate'],
+main .form .card-item [class*='field-rewardsdescription'],
+main .form .card-item [class*='field-joiningfee'],
+main .form .card-item [class*='field-cardimage'] {
+  margin: 0;
+  grid-column: span 12;
+}
+
+main .form .card-item [class*='field-cardname'] {
+  padding-right: 28px;
+}
+
+main .form .card-item [class*='field-cardname'] p {
+  margin: 0 0 4px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--card-item-title-color);
+}
+
+main .form .card-item [class*='field-cardtagline'] p {
+  margin: 0 0 16px;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--card-item-tagline-color);
+}
+
+/* Card image */
+main .form .card-item [class*='field-cardimage'] {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+main .form .card-item [class*='field-cardimage'] picture,
+main .form .card-item [class*='field-cardimage'] img {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+/* Feature lines with icons */
+main .form .card-item [class*='field-rewardsrate'],
+main .form .card-item [class*='field-rewardsdescription'],
+main .form .card-item [class*='field-joiningfee'] {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+main .form .card-item [class*='field-joiningfee'] {
+  margin-bottom: 0;
+}
+
+main .form .card-item [class*='field-rewardsrate']::before,
+main .form .card-item [class*='field-rewardsdescription']::before,
+main .form .card-item [class*='field-joiningfee']::before {
+  content: '';
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  background-color: var(--card-item-icon-color);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+main .form .card-item [class*='field-rewardsrate']::before {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M20 12v8H4v-8M12 3l8 5H4l8-5z'/%3E%3C/svg%3E");
+}
+
+main .form .card-item [class*='field-rewardsdescription']::before {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3C/svg%3E");
+}
+
+main .form .card-item [class*='field-joiningfee']::before {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M21 12V7H3v5M7 12v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-5'/%3E%3C/svg%3E");
+}
+
+main .form .card-item [class*='field-rewardsrate'] p,
+main .form .card-item [class*='field-rewardsdescription'] p,
+main .form .card-item [class*='field-joiningfee'] p {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--card-item-detail-color);
+}
+
+/* Radio selector – top-right corner */
+main .form .card-item .field-selectcard {
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+main .form .card-item .field-selectcard .radio-wrapper {
+  margin: 0;
+}
+
+main .form .card-item .field-selectcard label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+main .form .card-item .field-selectcard input[type='radio'] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+main .form .card-item .field-selectcard input[type='radio']:checked {
+  border-color: var(--card-item-selected-border);
+  background: radial-gradient(circle, var(--card-item-selected-border) 0 5px, #fff 5px 100%);
+}
+
+main .form .card-item .field-selectcard input[type='radio']:focus-visible {
+  outline: 2px solid var(--card-item-selected-border);
+  outline-offset: 2px;
+}
+
+@media (width <= 600px) {
+  main .form {
+    --card-item-width: 100%;
   }
-  
-  /* Each card */
-  [class*="field-card-item"].panel-wrapper {
-    width: 240px;
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 20px;
-    margin: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    transition: box-shadow 0.2s, border-color 0.2s;
+
+  main .form .card-items.repeat-wrapper {
+    flex-direction: column;
   }
-  
-  [class*="field-card-item"].panel-wrapper:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Hide the "Card item" legend label */
-  [class*="field-card-item"] > legend.field-label {
-    display: none;
-  }
-  
-  /* Card image */
-  [class*="field-cardimage"] img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 12px;
-  }
-  
-  /* Card name */
-  [class*="field-cardname"] p {
-    font-size: 18px;
-    font-weight: 700;
-    margin: 0 0 4px 0;
-  }
-  
-  /* Tagline */
-  [class*="field-cardtagline"] p {
-    font-size: 13px;
-    color: #666;
-    margin: 0 0 12px 0;
-  }
-  
-  /* Rewards / fees lines */
-  [class*="field-rewardsrate"] p,
-  [class*="field-rewardsdescription"] p,
-  [class*="field-joiningfee"] p {
-    font-size: 13px;
-    margin: 0 0 6px 0;
-  }
-  
-  /* Radio selector */
-  .field-selectcard {
-    margin-top: 12px;
-    border: none;
-  }
-  
-  .field-selectcard legend {
-    display: none;
-  }
+}
