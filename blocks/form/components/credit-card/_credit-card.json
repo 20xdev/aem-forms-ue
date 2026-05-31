@@ -11,12 +11,16 @@
               "jcr:title": "Credit Card",
               "fieldType": "radio-group",
               "enum": [
-                "0",
-                "1"
+                "rewards",
+                "low-rate",
+                "low-fee",
+                "the-ultimate"
               ],
               "enumNames": [
-                "Item 1",
-                "Item 2"
+                "Rewards",
+                "Low-Rate",
+                "Low Fee",
+                "The Ultimate"
               ],
               "orientation": "horizontal",
               "fd:viewType": "credit-card"

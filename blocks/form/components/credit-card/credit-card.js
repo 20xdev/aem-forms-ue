@@ -1,45 +1,83 @@
 import { createOptimizedPicture } from '../../../../scripts/aem.js';
 import { subscribe } from '../../rules/index.js';
 
-function createCard(fieldDiv, enums) {
-  fieldDiv.querySelectorAll('.radio-wrapper').forEach((radioWrapper, index) => {
-    if (enums[index]?.name) {
-      let label = radioWrapper.querySelector('label');
-      if (!label) {
-        label = document.createElement('label');
-        radioWrapper.appendChild(label);
-      }
-      label.textContent = enums[index].name;
+function renderCard(radioWrapper, data, label) {
+  const input = radioWrapper.querySelector('input');
+  radioWrapper.innerHTML = '';
+  radioWrapper.appendChild(input);
+
+  const header = document.createElement('div');
+  header.className = 'card-header';
+  const name = document.createElement('h3');
+  name.className = 'card-name';
+  name.textContent = label;
+  const tagline = document.createElement('p');
+  tagline.className = 'card-tagline';
+  tagline.textContent = data?.tagline || '';
+  header.appendChild(name);
+  header.appendChild(tagline);
+
+  const image = createOptimizedPicture(data?.image || '', label);
+  image.classList.add('card-image');
+
+  const details = document.createElement('ul');
+  details.className = 'card-details';
+  [data?.rewardsRate, data?.rewardsDescription, data?.joiningFee].forEach((line) => {
+    if (line) {
+      const li = document.createElement('li');
+      li.textContent = line;
+      details.appendChild(li);
     }
+  });
 
+  const amount = document.createElement('div');
+  amount.className = 'card-amount';
+  amount.innerHTML = `<span>Application amount</span><strong>${data?.applicationAmount || ''}</strong>`;
+
+  radioWrapper.appendChild(header);
+  radioWrapper.appendChild(image);
+  radioWrapper.appendChild(details);
+  radioWrapper.appendChild(amount);
+}
+
+function buildCards(fieldDiv, enums, enumNames, catalog) {
+  const catalogById = (catalog || []).reduce((acc, item) => {
+    acc[item.id] = item;
+    return acc;
+  }, {});
+
+  fieldDiv.querySelectorAll('.radio-wrapper').forEach((radioWrapper, index) => {
+    const enumValue = enums[index];
+    const enumLabel = enumNames?.[index] || enumValue;
     radioWrapper.querySelector('input').dataset.index = index;
-
-    const image = createOptimizedPicture(
-      enums[index]?.image || 'https://main--aem-forms-ue--20xdev.aem.page/icons/card-placeholder.png',
-      'card-image',
-    );
-    radioWrapper.appendChild(image);
+    renderCard(radioWrapper, catalogById[enumValue], enumLabel);
   });
 }
 
 export default async function decorate(fieldDiv, fieldJson, parentElement, formId) {
   fieldDiv.classList.add('credit-card');
-  createCard(fieldDiv, fieldJson.enum || []);
+  const catalog = fieldJson.properties?.['fd:cardCatalog'] || [];
+  buildCards(fieldDiv, fieldJson.enum || [], fieldJson.enumNames || [], catalog);
 
   subscribe(fieldDiv, formId, (element, fieldModel) => {
     fieldModel.subscribe((e) => {
       const { payload } = e;
       payload?.changes?.forEach((change) => {
         if (change?.propertyName === 'enum') {
-          createCard(fieldDiv, change.currentValue);
+          buildCards(
+            fieldDiv,
+            change.currentValue,
+            fieldModel.enumNames,
+            fieldModel.properties?.['fd:cardCatalog'] || catalog,
+          );
         }
       });
     });
 
     fieldDiv.addEventListener('change', (e) => {
       e.stopPropagation();
-      const value = fieldModel.enum?.[parseInt(e.target.dataset.index, 10)];
-      fieldModel.value = value?.name;
+      const idx = parseInt(e.target.dataset.index, 10);
+      fieldModel.value = fieldModel.enum?.[idx];
     });
   });
 
