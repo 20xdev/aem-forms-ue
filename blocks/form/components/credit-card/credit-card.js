@@ -55,6 +55,7 @@ function buildCards(fieldDiv, enums, enumNames, catalog) {
 }
 
 export default async function decorate(fieldDiv, fieldJson, parentElement, formId) {
+  console.log('credit-card fieldJson:', JSON.stringify(fieldJson, null, 2));
   fieldDiv.classList.add('credit-card');
   const catalog = fieldJson.properties?.['fd:cardCatalog'] || [];
   buildCards(fieldDiv, fieldJson.enum || [], fieldJson.enumNames || [], catalog);
