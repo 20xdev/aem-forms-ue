@@ -40,7 +40,7 @@ module.exports = {
       'radio-group': 20,
       'card-choice': 20,
       'card-item': 17,
-      'credit-card': 20,
+      'credit-card': 21,
       'form-reset-button': 7,
       'form-submit-button': 7,
       'telephone-input': 20,
