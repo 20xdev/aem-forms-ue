@@ -1,2 +1,32 @@
-/* Card-offer-picker component styles */
-  /* Add your custom styles here */
+.card-offer-picker {
+    display: block;
+  }
+  
+  .card-offer-picker .radio-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #d7dbe0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    background: #fff;
+    transition: all 0.2s ease;
+  }
+  
+  .card-offer-picker .radio-wrapper:hover {
+    border-color: #1473e6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  
+  .card-offer-picker .radio-wrapper.is-selected {
+    border-color: #1473e6;
+    background: #eef6ff;
+  }
+  
+  .card-offer-picker .radio-wrapper label {
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
