@@ -4736,6 +4736,13 @@
         "name": "validation"
       },
       {
+        "component": "text",
+        "name": "cardCatalogKey",
+        "label": "Card Catalog Key",
+        "valueType": "string",
+        "description": "Identifier for the default card catalog to load from the repo. Overridden at runtime by API."
+      },
+      {
         "component": "boolean",
         "name": "required",
         "label": "Required",

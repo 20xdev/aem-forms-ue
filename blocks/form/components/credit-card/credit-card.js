@@ -1,5 +1,6 @@
 import { createOptimizedPicture } from '../../../../scripts/aem.js';
 import { subscribe } from '../../rules/index.js';
+import getCatalog from './catalogs.js';
 
 function renderCard(radioWrapper, data, label) {
   const input = radioWrapper.querySelector('input');
@@ -55,9 +56,11 @@ function buildCards(fieldDiv, enums, enumNames, catalog) {
 }
 
 export default async function decorate(fieldDiv, fieldJson, parentElement, formId) {
-  console.log('credit-card fieldJson:', JSON.stringify(fieldJson, null, 2));
   fieldDiv.classList.add('credit-card');
-  const catalog = fieldJson.properties?.['fd:cardCatalog'] || [];
+
+  const catalogKey = fieldJson?.properties?.cardCatalogKey || 'default-credit-cards';
+  const catalog = getCatalog(catalogKey);
+
   buildCards(fieldDiv, fieldJson.enum || [], fieldJson.enumNames || [], catalog);
 
   subscribe(fieldDiv, formId, (element, fieldModel) => {
@@ -65,12 +68,7 @@ export default async function decorate(fieldDiv, fieldJson, parentElement, formI
       const { payload } = e;
       payload?.changes?.forEach((change) => {
         if (change?.propertyName === 'enum') {
-          buildCards(
-            fieldDiv,
-            change.currentValue,
-            fieldModel.enumNames,
-            fieldModel.properties?.['fd:cardCatalog'] || catalog,
-          );
+          buildCards(fieldDiv, change.currentValue, fieldModel.enumNames, catalog);
         }
       });
     });
