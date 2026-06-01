@@ -224,7 +224,8 @@
         "range",
         "card-choice",
         "credit-card",
-        "card-item"
+        "card-item",
+        "card-offer-picker"
       ]
     }
   ]

@@ -51,6 +51,9 @@
         },
         {
           "...": "../blocks/form/components/card-item/_card-item.json#/definitions"
+        },
+        {
+          "...": "../blocks/form/components/card-offer-picker/_card-offer-picker.json#/definitions"
         }
       ]
     }
