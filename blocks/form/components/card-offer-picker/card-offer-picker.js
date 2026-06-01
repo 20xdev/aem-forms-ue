@@ -1,22 +1,71 @@
-/**
- * Custom card-offer-picker component
- * Based on: Radio Group
- */
+import { subscribe } from '../../rules/index.js';
 
-/**
- * Decorates a custom form field component
- * @param {HTMLElement} fieldDiv - The DOM element containing the field wrapper.
- * Refer to the documentation for its structure for each component.
- * @param {Object} fieldJson - The form json object for the component.
- * @param {HTMLElement} parentElement - The parent container element of the field.
- * @param {string} formId - The unique identifier of the form.
- */
-// eslint-disable-next-line no-unused-vars
-export default async function decorate(fieldDiv, fieldJson, parentElement, formId) {
-  // TODO: Implement your custom component logic here
-  // You can access the field properties via fieldJson.properties
-  // You can access the parent container via parentElement
-  // You can access the form ID via formId
+function getDisplayLabel(fieldModel, input, index) {
+  const enumNames = fieldModel?.enumNames || [];
+  const display = enumNames[index];
 
-  return fieldDiv;
+  if (typeof display === 'string') return display;
+  if (display?.name) return display.name;
+  if (input?.value) return input.value;
+
+  return `Option ${index + 1}`;
+}
+
+function updateSelectedState(fieldDiv) {
+  fieldDiv.querySelectorAll('.radio-wrapper').forEach((wrapper) => {
+    const input = wrapper.querySelector('input');
+    wrapper.classList.toggle('is-selected', Boolean(input?.checked));
+  });
+}
+
+function decorateCards(fieldDiv, fieldModel) {
+  fieldDiv.classList.add('card-offer-picker');
+
+  [...fieldDiv.querySelectorAll('.radio-wrapper')].forEach((wrapper, index) => {
+    wrapper.classList.add('card-offer-picker__item');
+
+    const input = wrapper.querySelector('input');
+    if (!input) return;
+
+    let label = wrapper.querySelector('label');
+    if (!label) {
+      label = document.createElement('label');
+      wrapper.appendChild(label);
+    }
+
+    label.textContent = getDisplayLabel(fieldModel, input, index);
+
+    wrapper.onclick = (event) => {
+      if (event.target !== input) {
+        input.checked = true;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    };
+  });
+
+  updateSelectedState(fieldDiv);
+}
+
+export default function decorate(fieldDiv, fieldModel, formId) {
+  decorateCards(fieldDiv, fieldModel);
+
+  fieldDiv.addEventListener('change', (event) => {
+    event.stopPropagation();
+    if (event.target?.value !== undefined) {
+      fieldModel.value = event.target.value;
+      updateSelectedState(fieldDiv);
+    }
+  });
+
+  subscribe(fieldDiv, formId, (div, model) => {
+    model.subscribe((e) => {
+      const changes = e?.payload?.changes || [];
+      changes.forEach((change) => {
+        if (['enum', 'enumNames', 'value'].includes(change.propertyName)) {
+          decorateCards(div, model);
+          updateSelectedState(div);
+        }
+      });
+    });
+  });
 }
