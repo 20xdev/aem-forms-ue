@@ -3,7 +3,7 @@ info:
   title: Secur Bank Credit Card Application API
   description: Mock API for Secur Bank credit card application flow
   version: "1.0.0"
-host: isolation-submit-intimate-clause.trycloudflare.com
+host: gather-nested-tribes-farms.trycloudflare.com
 basePath: /api
 schemes:
   - http
