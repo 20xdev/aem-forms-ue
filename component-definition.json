@@ -807,6 +807,31 @@
               }
             }
           }
+        },
+        {
+          "title": "Card offer picker",
+          "id": "card-offer-picker",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/fd/components/form/radiobutton/v1/radiobutton",
+                "template": {
+                  "jcr:title": "Card offer picker",
+                  "fieldType": "radio-group",
+                  "enum": [
+                    "0",
+                    "1"
+                  ],
+                  "enumNames": [
+                    "Item 1",
+                    "Item 2"
+                  ],
+                  "orientation": "horizontal",
+                  "fd:viewType": "card-offer-picker"
+                }
+              }
+            }
+          }
         }
       ]
     }
