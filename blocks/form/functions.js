@@ -63,18 +63,21 @@ function maskMobileNumber(mobileNumber) {
  * @param {scope} scope
  * @returns {boolean}
  */
+/**
+ * @name sendOtp
+ * @param {scope} scope
+ * @returns {string}
+ */
 function sendOtp(scope) {
-  const payload = {
-    mobile: scope.mobile.value,
-    ssn: scope.ssn.value,
-  };
+  const baseUrl = 'https://silly-show-door-translator.trycloudflare.com/api';
 
   fetch(`${baseUrl}/otp/send`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      mobile: scope.mobile.value,
+      ssn: scope.ssn.value,
+    }),
   })
     .then((res) => res.json())
     .then((data) => {
@@ -82,17 +85,13 @@ function sendOtp(scope) {
       scope.maskedMobile.value = data.maskedMobile || '';
       scope.attemptsLeft.value = data.attemptsLeft || '';
       scope.expiresInSeconds.value = data.expiresInSeconds || '';
-      if (scope.otpMessage) {
-        scope.otpMessage.value = `OTP sent to ${data.maskedMobile}`;
-      }
+      scope.otpMessage.value = `OTP sent to ${data.maskedMobile}`;
     })
     .catch(() => {
-      if (scope.otpMessage) {
-        scope.otpMessage.value = 'Failed to send OTP.';
-      }
+      scope.otpMessage.value = 'Failed to send OTP.';
     });
 
-  return true;
+  return 'Sending OTP...';
 }
 
 // eslint-disable-next-line import/prefer-default-export
