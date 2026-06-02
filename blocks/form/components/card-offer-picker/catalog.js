@@ -3,7 +3,7 @@ const catalogs = {
     {
       id: 'rewards',
       name: 'Rewards',
-      image: '/assets/card-teal.png',
+      image: '/assets/cards/card-teal.png',
       imageAlt: 'Rewards credit card',
       badge: 'Best for rewards',
       tagline: 'Best Card for Rewards & Offers',
@@ -20,7 +20,7 @@ const catalogs = {
     {
       id: 'low-rate',
       name: 'Low Rate',
-      image: '/assets/card-gray.png',
+      image: '/assets/cards/card-gray.png',
       imageAlt: 'Low Rate credit card',
       badge: 'Low interest',
       tagline: 'Smart Choice for Lower Interest',
@@ -37,7 +37,7 @@ const catalogs = {
     {
       id: 'low-fee',
       name: 'Low Fee',
-      image: '/assets/card-gold.png',
+      image: '/assets/cards/card-gold.png',
       imageAlt: 'Low Fee credit card',
       badge: 'Low annual fee',
       tagline: 'Value Card with Low Annual Fee',
@@ -54,7 +54,7 @@ const catalogs = {
     {
       id: 'the-ultimate',
       name: 'The Ultimate',
-      image: '/assets/card-black.png',
+      image: '/assets/cards/card-black.png',
       imageAlt: 'The Ultimate credit card',
       badge: 'Premium',
       tagline: 'Premium Card with Elevated Benefits',
