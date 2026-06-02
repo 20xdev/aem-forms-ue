@@ -1,9 +1,18 @@
+
 import { subscribe } from '../../rules/index.js';
 import getCatalog from './catalog.js';
 
 function getCatalogItems(fieldModel) {
   const key = fieldModel?.cardCatalogKey || 'default-credit-cards';
   return getCatalog(key);
+}
+
+function resolveAssetUrl(path) {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+
+  const base = window.hlx?.codeBasePath || '';
+  return `${base}${path}`;
 }
 
 function getCardData(fieldModel, input, index) {
@@ -31,11 +40,12 @@ function createCardMarkup(fieldModel, input, index) {
   const content = document.createElement('div');
   content.className = 'card-offer-picker__content';
 
-  if (card?.image) {
+  if (card?.imagePath) {
     const image = document.createElement('img');
     image.className = 'card-offer-picker__image';
-    image.src = card.image;
+    image.src = resolveAssetUrl(card.imagePath);
     image.alt = card.imageAlt || title;
+    image.loading = 'lazy';
     content.appendChild(image);
   }
 
