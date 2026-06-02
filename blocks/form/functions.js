@@ -61,32 +61,43 @@ function maskMobileNumber(mobileNumber) {
 /**
  * @name sendOtp
  * @param {scope} scope
- * @returns {boolean}
- */
-/**
- * @name sendOtp
- * @param {scope} scope
  * @returns {string}
  */
 function sendOtp(scope) {
+  const { form } = scope;
+
+  const mobileField = form.mobile;
+  const ssnField = form.ssn;
+  const sessionIdField = form.sessionId;
+  const maskedMobileField = form.maskedMobile;
+  const attemptsLeftField = form.attemptsLeft;
+  const expiresInSecondsField = form.expiresInSeconds;
+  const otpMessageField = form.otpMessage;
+
   fetch(`${baseUrl}/otp/send`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
-      mobile: scope.mobile.value,
-      ssn: scope.ssn.value,
+      mobile: mobileField.value,
+      ssn: ssnField.value,
     }),
   })
     .then((res) => res.json())
     .then((data) => {
-      scope.sessionId.value = data.sessionId || '';
-      scope.maskedMobile.value = data.maskedMobile || '';
-      scope.attemptsLeft.value = data.attemptsLeft || '';
-      scope.expiresInSeconds.value = data.expiresInSeconds || '';
-      scope.otpMessage.value = `OTP sent to ${data.maskedMobile}`;
+      sessionIdField.value = data.sessionId || '';
+      maskedMobileField.value = data.maskedMobile || '';
+      attemptsLeftField.value = data.attemptsLeft || '';
+      expiresInSecondsField.value = data.expiresInSeconds || '';
+      if (otpMessageField) {
+        otpMessageField.value = `OTP sent to ${data.maskedMobile}`;
+      }
     })
     .catch(() => {
-      scope.otpMessage.value = 'Failed to send OTP.';
+      if (otpMessageField) {
+        otpMessageField.value = 'Failed to send OTP.';
+      }
     });
 
   return 'Sending OTP...';
