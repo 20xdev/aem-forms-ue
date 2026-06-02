@@ -1,32 +1,107 @@
 .card-offer-picker {
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
   
   .card-offer-picker .radio-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border: 1px solid #d7dbe0;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-    cursor: pointer;
+    position: relative;
+    display: block;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
     background: #fff;
-    transition: all 0.2s ease;
+    padding: 20px 18px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   }
   
   .card-offer-picker .radio-wrapper:hover {
-    border-color: #1473e6;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-color: #2563eb;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    transform: translateY(-1px);
   }
   
   .card-offer-picker .radio-wrapper.is-selected {
-    border-color: #1473e6;
-    background: #eef6ff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
   }
   
-  .card-offer-picker .radio-wrapper label {
+  .card-offer-picker__input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .card-offer-picker__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+  }
+  
+  .card-offer-picker__image {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    display: block;
+    margin: 0 auto 6px;
+    border-radius: 12px;
+  }
+  
+  .card-offer-picker__title {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #111827;
+  }
+  
+  .card-offer-picker__tagline {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #6b7280;
+  }
+  
+  .card-offer-picker__rewards-rate {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.35;
+    font-weight: 700;
+    color: #111827;
+  }
+  
+  .card-offer-picker__rewards-description {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #4b5563;
+  }
+  
+  .card-offer-picker__fee,
+  .card-offer-picker__amount {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #111827;
     font-weight: 600;
-    cursor: pointer;
+  }
+  
+  @media (min-width: 768px) {
+    .card-offer-picker {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .card-offer-picker {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+    }
+  
+    .card-offer-picker .radio-wrapper {
+      min-height: 100%;
+    }
   }
   
