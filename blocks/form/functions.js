@@ -69,8 +69,6 @@ function maskMobileNumber(mobileNumber) {
  * @returns {string}
  */
 function sendOtp(scope) {
-  const baseUrl = 'https://silly-show-door-translator.trycloudflare.com/api';
-
   fetch(`${baseUrl}/otp/send`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
