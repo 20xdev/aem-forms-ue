@@ -37,6 +37,7 @@ module.exports = {
       'multiline-input': 23,
       'number-input': 22,
       panel: 17,
+      'otp-controller': 17,
       'radio-group': 20,
       'card-offer-picker': 20,
       'card-choice': 20,

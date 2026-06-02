@@ -79,13 +79,6 @@ function sendOtp(
   expiresInSeconds,
   otpMessage,
 ) {
-  console.log('mobile', mobile);
-  console.log('ssn', ssn);
-  console.log('sessionId', sessionId);
-  console.log('maskedMobile', maskedMobile);
-  console.log('attemptsLeft', attemptsLeft);
-  console.log('expiresInSeconds', expiresInSeconds);
-  console.log('otpMessage', otpMessage);
   fetch(`${baseUrl}/otp/send`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
