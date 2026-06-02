@@ -60,44 +60,50 @@ function maskMobileNumber(mobileNumber) {
 
 /**
  * @name sendOtp
+ * @param {object} mobile
+ * @param {object} ssn
+ * @param {object} sessionId
+ * @param {object} maskedMobile
+ * @param {object} attemptsLeft
+ * @param {object} expiresInSeconds
+ * @param {object} otpMessage
  * @param {scope} scope
  * @returns {string}
  */
-function sendOtp(scope) {
-  const { form } = scope;
-
-  const mobileField = form.mobile;
-  const ssnField = form.ssn;
-  const sessionIdField = form.sessionId;
-  const maskedMobileField = form.maskedMobile;
-  const attemptsLeftField = form.attemptsLeft;
-  const expiresInSecondsField = form.expiresInSeconds;
-  const otpMessageField = form.otpMessage;
-
+function sendOtp(
+  mobile,
+  ssn,
+  sessionId,
+  maskedMobile,
+  attemptsLeft,
+  expiresInSeconds,
+  otpMessage,
+) {
+  console.log('mobile', mobile);
+  console.log('ssn', ssn);
+  console.log('sessionId', sessionId);
+  console.log('maskedMobile', maskedMobile);
+  console.log('attemptsLeft', attemptsLeft);
+  console.log('expiresInSeconds', expiresInSeconds);
+  console.log('otpMessage', otpMessage);
   fetch(`${baseUrl}/otp/send`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      mobile: mobileField.value,
-      ssn: ssnField.value,
+      mobile: mobile.value,
+      ssn: ssn.value,
     }),
   })
     .then((res) => res.json())
     .then((data) => {
-      sessionIdField.value = data.sessionId || '';
-      maskedMobileField.value = data.maskedMobile || '';
-      attemptsLeftField.value = data.attemptsLeft || '';
-      expiresInSecondsField.value = data.expiresInSeconds || '';
-      if (otpMessageField) {
-        otpMessageField.value = `OTP sent to ${data.maskedMobile}`;
-      }
+      sessionId.value = data.sessionId || '';
+      maskedMobile.value = data.maskedMobile || '';
+      attemptsLeft.value = data.attemptsLeft || '';
+      expiresInSeconds.value = data.expiresInSeconds || '';
+      if (otpMessage) otpMessage.value = `OTP sent to ${data.maskedMobile}`;
     })
     .catch(() => {
-      if (otpMessageField) {
-        otpMessageField.value = 'Failed to send OTP.';
-      }
+      if (otpMessage) otpMessage.value = 'Failed to send OTP.';
     });
 
   return 'Sending OTP...';

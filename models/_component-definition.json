@@ -54,6 +54,9 @@
         },
         {
           "...": "../blocks/form/components/card-offer-picker/_card-offer-picker.json#/definitions"
+        },
+        {
+          "...": "../blocks/form/components/otp-controller/_otp-controller.json#/definitions"
         }
       ]
     }

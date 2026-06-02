@@ -225,7 +225,8 @@
         "card-choice",
         "credit-card",
         "card-item",
-        "card-offer-picker"
+        "card-offer-picker",
+        "otp-controller"
       ]
     }
   ]
