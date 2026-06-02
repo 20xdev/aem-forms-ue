@@ -39,10 +39,10 @@ function createCardMarkup(fieldModel, input, index) {
   const content = document.createElement('div');
   content.className = 'card-offer-picker__content';
 
-  if (card?.imagePath) {
+  if (card?.image) {
     const image = document.createElement('img');
     image.className = 'card-offer-picker__image';
-    image.src = resolveAssetUrl(card.imagePath);
+    image.src = resolveAssetUrl(card.image);
     image.alt = card.imageAlt || title;
     image.loading = 'lazy';
     content.appendChild(image);
