@@ -1,3 +1,5 @@
+const baseUrl = 'https://silly-show-door-translator.trycloudflare.com/api';
+
 /**
  * Get Full Name
  * @name getFullName Concats first name and last name
@@ -56,7 +58,44 @@ function maskMobileNumber(mobileNumber) {
   return ` ${'*'.repeat(5)}${value.substring(5)}`;
 }
 
+/**
+ * @name sendOtp
+ * @param {scope} scope
+ * @returns {boolean}
+ */
+function sendOtp(scope) {
+  const payload = {
+    mobile: scope.mobile.value,
+    ssn: scope.ssn.value,
+  };
+
+  fetch(`${baseUrl}/otp/send`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      scope.sessionId.value = data.sessionId || '';
+      scope.maskedMobile.value = data.maskedMobile || '';
+      scope.attemptsLeft.value = data.attemptsLeft || '';
+      scope.expiresInSeconds.value = data.expiresInSeconds || '';
+      if (scope.otpMessage) {
+        scope.otpMessage.value = `OTP sent to ${data.maskedMobile}`;
+      }
+    })
+    .catch(() => {
+      if (scope.otpMessage) {
+        scope.otpMessage.value = 'Failed to send OTP.';
+      }
+    });
+
+  return true;
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export {
-  getFullName, days, submitFormArrayToString, maskMobileNumber,
+  getFullName, days, submitFormArrayToString, maskMobileNumber, sendOtp,
 };
