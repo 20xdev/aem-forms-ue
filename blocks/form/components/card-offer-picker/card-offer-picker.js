@@ -1,4 +1,3 @@
-
 import { subscribe } from '../../rules/index.js';
 import getCatalog from './catalog.js';
 
