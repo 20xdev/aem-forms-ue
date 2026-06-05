@@ -1,4 +1,4 @@
-const baseUrl = 'https://silly-show-door-translator.trycloudflare.com/api';
+const baseUrl = 'https://armor-surge-legends-single.trycloudflare.com/api';
 
 /**
  * Get Full Name
@@ -61,42 +61,32 @@ function maskMobileNumber(mobileNumber) {
 /**
  * @name sendOtp
  * @param {object} mobile
- * @param {object} ssn
- * @param {object} sessionId
- * @param {object} maskedMobile
- * @param {object} attemptsLeft
- * @param {object} expiresInSeconds
- * @param {object} otpMessage
  * @param {scope} scope
  * @returns {string}
  */
-function sendOtp(
-  mobile,
-  ssn,
-  sessionId,
-  maskedMobile,
-  attemptsLeft,
-  expiresInSeconds,
-  otpMessage,
-) {
+function sendOtp(mobile, scope) {
+  const { ssn } = scope.functions.exportData();
+
   fetch(`${baseUrl}/otp/send`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      mobile: mobile.value,
-      ssn: ssn.value,
+      mobile: mobile.$value,
+      ssn,
     }),
   })
     .then((res) => res.json())
     .then((data) => {
-      sessionId.value = data.sessionId || '';
-      maskedMobile.value = data.maskedMobile || '';
-      attemptsLeft.value = data.attemptsLeft || '';
-      expiresInSeconds.value = data.expiresInSeconds || '';
-      if (otpMessage) otpMessage.value = `OTP sent to ${data.maskedMobile}`;
+      scope.functions.importData({
+        sessionId: data.sessionId || '',
+        maskedMobile: data.maskedMobile || '',
+        attemptsLeft: data.attemptsLeft || '',
+        expiresInSeconds: data.expiresInSeconds || '',
+        otpMessage: `OTP sent to ${data.maskedMobile}`,
+      });
     })
     .catch(() => {
-      if (otpMessage) otpMessage.value = 'Failed to send OTP.';
+      scope.functions.importData({ otpMessage: 'Failed to send OTP.' });
     });
 
   return 'Sending OTP...';
