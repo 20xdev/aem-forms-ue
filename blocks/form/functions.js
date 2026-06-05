@@ -60,19 +60,17 @@ function maskMobileNumber(mobileNumber) {
 
 /**
  * @name sendOtp
- * @param {object} mobile
+ * @param {object} sendOtpPanel
  * @param {scope} scope
  * @returns {string}
  */
-function sendOtp(mobile, scope) {
-  const { ssn } = scope.functions.exportData();
-
+function sendOtp(sendOtpPanel, scope) {
   fetch(`${baseUrl}/otp/send`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      mobile: mobile.$value,
-      ssn,
+      mobile: sendOtpPanel.$mobile.$value,
+      ssn: sendOtpPanel.$ssn.$value,
     }),
   })
     .then((res) => res.json())
