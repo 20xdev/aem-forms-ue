@@ -96,7 +96,7 @@ function sendOtp(sendOtpPanel, scope) {
  * @returns {string}
  */
 function modifyOtpModalTitle(sendOtpPanel) {
-  const otpText = sendOtpPanel.otp_text.$value;
+  const otpText = sendOtpPanel.otp_modal.otp_text.$value;
   const maskedMobileNumber = sendOtpPanel.maskedMobile.$value;
   const placeholder = /\$\{maskedMobileNumber\}/;
 
