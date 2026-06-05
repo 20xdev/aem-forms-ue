@@ -70,7 +70,7 @@ function sendOtp(sendOtpPanel, scope) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       mobile: sendOtpPanel.mobile.$value,
-      ssn: sendOtpPanel.ssn.$value,
+      ssn: sendOtpPanel.snn.$value,
     }),
   })
     .then((res) => res.json())
