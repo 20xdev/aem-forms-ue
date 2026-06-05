@@ -90,7 +90,24 @@ function sendOtp(sendOtpPanel, scope) {
   return 'Sending OTP...';
 }
 
+/**
+ * @name modifyOtpModalTitle
+ * @param {object} sendOtpPanel
+ * @returns {string}
+ */
+function modifyOtpModalTitle(sendOtpPanel) {
+  const otpText = sendOtpPanel.otp_text.$value;
+  const maskedMobileNumber = sendOtpPanel.maskedMobile.$value;
+  const placeholder = /\$\{maskedMobileNumber\}/;
+
+  if (!otpText || !placeholder.test(otpText)) {
+    return otpText || '';
+  }
+
+  return otpText.replace(placeholder, maskedMobileNumber);
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export {
-  getFullName, days, submitFormArrayToString, maskMobileNumber, sendOtp,
+  getFullName, days, submitFormArrayToString, maskMobileNumber, sendOtp, modifyOtpModalTitle,
 };
